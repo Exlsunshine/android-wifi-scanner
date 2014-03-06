@@ -43,7 +43,11 @@ public class MainActivity extends Activity {
 	public void onDestroy() {
 		super.onDestroy();
 	}
-
+	
+	public void plotData() {
+		
+	}
+	
 	public class MainActivityReceiver extends BroadcastReceiver {
 
 		@Override

@@ -2,5 +2,6 @@
 <resources>
 
     <string name="app_name">AndroidWifiScanner</string>
+    <string name="wifi_net_title">WiFi Networks Detected</string>
 
 </resources>
