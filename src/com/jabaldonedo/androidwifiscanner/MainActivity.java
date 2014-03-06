@@ -1,7 +1,12 @@
 package com.jabaldonedo.androidwifiscanner;
 
-import android.os.Bundle;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
 
 public class MainActivity extends Activity {
@@ -9,6 +14,16 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		// set receiver
+		MainActivityReceiver mReceiver = new MainActivityReceiver();
+		LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter(Constants.APP_NAME));
+
+		// launch WiFi service
+		Intent intent = new Intent(this, WifiService.class);
+		startService(intent);
+
+		// set layout
 		setContentView(R.layout.activity_main);
 	}
 
@@ -19,4 +34,22 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
+	@Override
+	public void onPause() {
+		super.onPause();
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+	}
+
+	public class MainActivityReceiver extends BroadcastReceiver {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+
+		}
+
+	}
 }
