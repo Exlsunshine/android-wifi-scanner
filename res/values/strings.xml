@@ -3,5 +3,6 @@
 
     <string name="app_name">AndroidWifiScanner</string>
     <string name="wifi_net_title">WiFi Networks Detected</string>
+    <string name="wifi_no_data">No networks detected</string>
 
 </resources>

@@ -7,14 +7,21 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.view.Gravity;
 import android.view.Menu;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
+	private WifiData mWifiData;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		mWifiData = null;
+		
 		// set receiver
 		MainActivityReceiver mReceiver = new MainActivityReceiver();
 		LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter(Constants.APP_NAME));
@@ -25,6 +32,7 @@ public class MainActivity extends Activity {
 
 		// set layout
 		setContentView(R.layout.activity_main);
+		plotData();
 	}
 
 	@Override
@@ -45,7 +53,18 @@ public class MainActivity extends Activity {
 	}
 	
 	public void plotData() {
-		
+		if (mWifiData == null) {
+			TextView noDataView = new TextView(this);
+			noDataView.setText(getResources().getString(R.string.wifi_no_data));
+			noDataView.setGravity(Gravity.CENTER_HORIZONTAL);
+			noDataView.setPadding(0, 50, 0, 0);
+			noDataView.setTextSize(18);
+			LinearLayout linearLayout = (LinearLayout) findViewById(R.id.scanningResultBlock);
+			linearLayout.removeAllViews();
+			linearLayout.addView(noDataView);
+		} else {
+			
+		}
 	}
 	
 	public class MainActivityReceiver extends BroadcastReceiver {
