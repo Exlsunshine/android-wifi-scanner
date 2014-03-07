@@ -90,7 +90,7 @@ public class WifiDataNetwork implements Comparable<WifiDataNetwork>, Parcelable 
 
 	@Override
 	public int compareTo(WifiDataNetwork another) {
-		return this.level - another.level;
+		return another.level - this.level;
 	}
 
 	@Override

@@ -12,8 +12,12 @@ import android.content.Intent;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.IBinder;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
 public class WifiService extends Service {
+	
+	private final String TAG = "WifiService";
 
 	private WifiManager mWifiManager;
 	private ScheduledFuture<?> scheduleReaderHandle;
@@ -51,14 +55,15 @@ public class WifiService extends Service {
 		public void run() {
 			if (mWifiManager.isWifiEnabled()) {
 				List<ScanResult> mResults = mWifiManager.getScanResults();
-				for (ScanResult result : mResults) {
-					mWifiData.addNetwork(result);
-				}
+				Log.d(TAG, "New scan result: (" + mResults.size() + ") networks found");
+				mWifiData.addNetworks(mResults);
+				
+				Intent intent = new Intent(Constants.INTENT_FILTER);
+				intent.putExtra(Constants.WIFI_DATA, mWifiData);
+				LocalBroadcastManager.getInstance(WifiService.this).sendBroadcast(intent);
 			} else {
 
 			}
-
-			System.out.println("beep");
 		}
 	}
 }
