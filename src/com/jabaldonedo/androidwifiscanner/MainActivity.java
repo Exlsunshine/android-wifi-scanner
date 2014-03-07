@@ -99,9 +99,9 @@ public class MainActivity extends Activity {
 			ssidText.setText(getResources().getString(R.string.ssid_text));
 			ssidText.setTypeface(null, Typeface.BOLD);
 
-			TextView freqText = new TextView(this);
-			freqText.setText(getResources().getString(R.string.freq_text));
-			freqText.setTypeface(null, Typeface.BOLD);
+			TextView chText = new TextView(this);
+			chText.setText(getResources().getString(R.string.ch_text));
+			chText.setTypeface(null, Typeface.BOLD);
 
 			TextView rxText = new TextView(this);
 			rxText.setText(getResources().getString(R.string.rx_text));
@@ -115,11 +115,11 @@ public class MainActivity extends Activity {
 
 				tableRowHeader.addView(ssidText);
 				tableRowHeader.addView(bssidText);
-				tableRowHeader.addView(freqText);
+				tableRowHeader.addView(chText);
 				tableRowHeader.addView(rxText);
 			} else {
 				tableRowHeader.addView(ssidText);
-				tableRowHeader.addView(freqText);
+				tableRowHeader.addView(chText);
 				tableRowHeader.addView(rxText);
 			}
 
@@ -130,8 +130,8 @@ public class MainActivity extends Activity {
 				TextView ssidVal = new TextView(this);
 				ssidVal.setText(net.getSsid());
 
-				TextView freqVal = new TextView(this);
-				freqVal.setText(String.valueOf(net.getFrequency()));
+				TextView chVal = new TextView(this);
+				chVal.setText(String.valueOf(WifiDataNetwork.convertFrequencyToChannel(net.getFrequency())));
 
 				TextView rxVal = new TextView(this);
 				rxVal.setText(String.valueOf(net.getLevel()));
@@ -140,21 +140,20 @@ public class MainActivity extends Activity {
 				tableRow.setLayoutParams(rowParams);
 
 				System.out.println(net.getCapabilities());
-				
+
 				if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
 					TextView bssidVal = new TextView(this);
 					bssidVal.setText(net.getBssid());
 
-					freqVal.setText(String.valueOf(net.getFrequency()) + " MHz");
 					rxVal.setText(String.valueOf(net.getLevel()) + " dBm");
 
 					tableRow.addView(ssidVal);
 					tableRow.addView(bssidVal);
-					tableRow.addView(freqVal);
+					tableRow.addView(chVal);
 					tableRow.addView(rxVal);
 				} else {
 					tableRow.addView(ssidVal);
-					tableRow.addView(freqVal);
+					tableRow.addView(chVal);
 					tableRow.addView(rxVal);
 				}
 
