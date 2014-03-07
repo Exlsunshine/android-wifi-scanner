@@ -39,7 +39,15 @@ public class WifiDataNetwork implements Comparable<WifiDataNetwork>, Parcelable 
 			return new WifiDataNetwork[size];
 		}
 	};
-	
+
+	/**
+	 * Converts a WiFi frequency to the corresponding channel.
+	 * 
+	 * @param freq
+	 *            frequency as given by
+	 *            {@link android.net.wifi.ScanResult.frequency}
+	 * @return the channel associated with the given frequency
+	 */
 	public static int convertFrequencyToChannel(int freq) {
 		if (freq >= 2412 && freq <= 2484) {
 			return (freq - 2412) / 5 + 1;
