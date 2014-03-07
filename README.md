@@ -26,7 +26,6 @@ Features
 Screenshots
 -----------
 ![App in landscape mode][2]
-![App in portrait mode][3]
 
 
   [1]: http://www.android.com/
