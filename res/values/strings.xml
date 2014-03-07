@@ -5,6 +5,7 @@
     <string name="wifi_net_title">WiFi Networks Detected</string>
     <string name="wifi_no_data">No networks detected</string>
     <string name="ssid_text">SSID</string>
+    <string name="bssid_text">BSSID</string>
     <string name="rx_text">Rx</string>
     <string name="freq_text">freq</string>
 

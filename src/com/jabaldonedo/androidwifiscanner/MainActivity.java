@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
@@ -35,7 +36,7 @@ public class MainActivity extends Activity {
 		// launch WiFi service
 		Intent intent = new Intent(this, WifiService.class);
 		startService(intent);
-		
+
 		// recover retained object
 		mWifiData = (WifiData) getLastNonConfigurationInstance();
 
@@ -62,10 +63,10 @@ public class MainActivity extends Activity {
 	}
 
 	@Override
-	public Object onRetainNonConfigurationInstance () {
+	public Object onRetainNonConfigurationInstance() {
 		return mWifiData;
 	}
-	
+
 	public void plotData() {
 		LinearLayout linearLayout = (LinearLayout) findViewById(R.id.scanningResultBlock);
 		linearLayout.removeAllViews();
@@ -85,7 +86,7 @@ public class MainActivity extends Activity {
 					TableLayout.LayoutParams.WRAP_CONTENT);
 			TableRow.LayoutParams rowParams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
 					TableRow.LayoutParams.WRAP_CONTENT);
-			
+
 			TableLayout tableLayout = new TableLayout(this);
 			tableLayout.setLayoutParams(tableParams);
 			tableLayout.setStretchAllColumns(true);
@@ -93,11 +94,11 @@ public class MainActivity extends Activity {
 			// row header
 			TableRow tableRowHeader = new TableRow(this);
 			tableRowHeader.setLayoutParams(rowParams);
-			
+
 			TextView ssidText = new TextView(this);
 			ssidText.setText(getResources().getString(R.string.ssid_text));
 			ssidText.setTypeface(null, Typeface.BOLD);
-			
+
 			TextView freqText = new TextView(this);
 			freqText.setText(getResources().getString(R.string.freq_text));
 			freqText.setTypeface(null, Typeface.BOLD);
@@ -106,34 +107,58 @@ public class MainActivity extends Activity {
 			rxText.setText(getResources().getString(R.string.rx_text));
 			rxText.setTypeface(null, Typeface.BOLD);
 
+			int orientation = getResources().getConfiguration().orientation;
+			if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+				TextView bssidText = new TextView(this);
+				bssidText.setText(getResources().getString(R.string.bssid_text));
+				bssidText.setTypeface(null, Typeface.BOLD);
 
-			tableRowHeader.addView(ssidText);
-			tableRowHeader.addView(freqText);
-			tableRowHeader.addView(rxText);
-		
+				tableRowHeader.addView(ssidText);
+				tableRowHeader.addView(bssidText);
+				tableRowHeader.addView(freqText);
+				tableRowHeader.addView(rxText);
+			} else {
+				tableRowHeader.addView(ssidText);
+				tableRowHeader.addView(freqText);
+				tableRowHeader.addView(rxText);
+			}
+
 			tableLayout.addView(tableRowHeader);
-		
+
 			// rows data
 			for (WifiDataNetwork net : mWifiData.getNetworks()) {
 				TextView ssidVal = new TextView(this);
 				ssidVal.setText(net.getSsid());
-				
+
 				TextView freqVal = new TextView(this);
 				freqVal.setText(String.valueOf(net.getFrequency()));
 
 				TextView rxVal = new TextView(this);
 				rxVal.setText(String.valueOf(net.getLevel()));
-				
+
 				TableRow tableRow = new TableRow(this);
 				tableRow.setLayoutParams(rowParams);
-				
-				tableRow.addView(ssidVal);
-				tableRow.addView(freqVal);
-				tableRow.addView(rxVal);
-				
+
+				if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+					TextView bssidVal = new TextView(this);
+					bssidVal.setText(net.getBssid());
+
+					freqVal.setText(String.valueOf(net.getFrequency()) + " MHz");
+					rxVal.setText(String.valueOf(net.getLevel()) + " dBm");
+
+					tableRow.addView(ssidVal);
+					tableRow.addView(bssidVal);
+					tableRow.addView(freqVal);
+					tableRow.addView(rxVal);
+				} else {
+					tableRow.addView(ssidVal);
+					tableRow.addView(freqVal);
+					tableRow.addView(rxVal);
+				}
+
 				tableLayout.addView(tableRow);
 			}
-			
+
 			linearLayout.addView(tableLayout);
 		}
 	}
