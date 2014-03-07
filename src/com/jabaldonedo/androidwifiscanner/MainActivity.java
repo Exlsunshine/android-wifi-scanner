@@ -139,6 +139,8 @@ public class MainActivity extends Activity {
 				TableRow tableRow = new TableRow(this);
 				tableRow.setLayoutParams(rowParams);
 
+				System.out.println(net.getCapabilities());
+				
 				if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
 					TextView bssidVal = new TextView(this);
 					bssidVal.setText(net.getBssid());
